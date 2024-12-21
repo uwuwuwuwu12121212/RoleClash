@@ -1,0 +1,496 @@
+@import '../node_modules/bootstrap/scss/bootstrap-reboot.scss';
+
+body {
+  background-color: rgb(247, 230, 151);
+}
+/* 引入台北正黑體 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+
+/* 重設樣式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans TC', sans-serif; /* 使用台北正黑體 */
+}
+
+a {
+  text-decoration: none;
+}
+.h5 {
+color: #381908;
+}
+
+/* Navbar 和容器設置 */
+.custom-navbar {
+  background-color: rgb(68, 183, 160)!important;
+  height: 125px!important;
+  width: 100%!important;
+  display: flex!important;
+  justify-content: space-between!important;
+  align-items: center!important;
+  text-align: right!important;
+  padding: 0 46px!important;
+  position: relative!important; /* 讓子元素絕對定位 */
+  justify-content: flex-end; /* 文字從右開始排列 */
+
+
+}
+
+/* Logo 設置 */
+.container_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+
+/* 漢堡按鈕 */
+label  {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 20px;
+  cursor: pointer;
+  justify-content: flex-end; /* 文字從右開始排列 */
+
+}
+
+label img {
+  width: 30px;
+  height: auto;
+  justify-content: flex-end; /* 文字從右開始排列 */
+
+}
+
+/* 下拉選單樣式 */
+.navbarlist {
+  list-style: none;
+  background-color: rgb(68, 183, 160);
+  position: absolute; /* 絕對定位在 navbar 下方 */
+  top: 125px; /* 距離 navbar 的高度 */
+  left: 0;
+  width: 100%;
+  display: none; /* 預設隱藏 */
+  z-index: 1000; /* 確保覆蓋其他內容 */
+}
+
+.navbarlist li {
+  text-align: center;
+}
+
+.navbarlist a {
+  display: block;
+  padding: 15px ;
+  font-size: 18px;
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease;
+
+}
+
+.navbarlist a:hover {
+  color: #381908;
+}
+
+/* 點選漢堡選單展開 */
+input:checked ~ .navbarlist {
+  display: block; /* 顯示選單 */
+}
+
+/* 中文與英文文字樣式 */
+.container_header_Teamchinese,
+.container_header_eventcechinese,
+.container_header_experiencechinese,
+.container_header_photographychinese,
+.container_header_contactchinese {
+  font-size: 120%;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: white;
+}
+
+.container_header_Teameenglish,
+.container_header_eventenglish,
+.container_header_experienceenglish,
+.container_header_photographyenglish,
+.container_header_contactenglish {
+  font-size: 80%;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 5px;
+}
+
+.navbarlist li:hover .container_header_Teamchinese,
+.navbarlist li:hover .container_header_Teameenglish,
+.navbarlist li:hover .container_header_eventcechinese,
+.navbarlist li:hover .container_header_eventenglish,
+.navbarlist li:hover .container_header_experiencechinese,
+.navbarlist li:hover .container_header_experienceenglish,
+.navbarlist li:hover .container_header_photographychinese,
+.navbarlist li:hover .container_header_photographyenglish,
+.navbarlist li:hover .container_header_contactchinese,
+.navbarlist li:hover .container_header_contactenglish {
+    color: #381908 !important; 
+}
+
+/* 響應式設計 */
+@media screen and (min-width: 1280px) {
+  label {
+    display: none; /* 隱藏漢堡按鈕 */
+    justify-content: flex-end; /* 文字從右開始排列 */
+
+    
+  }
+
+  .menu-toggle {
+    display: none; /* 隱藏漢堡按鈕 */
+    justify-content: flex-end; /* 文字從右開始排列 */
+  }
+
+  .navbarlist {
+    position: static; /* 還原定位 */
+    display: flex;
+    background: transparent;
+    justify-content: flex-end; /* 文字從右開始排列 */
+    text-align: right; /* 保證內部內容靠右 */
+    gap: 20px; /* 控制項目間隔 */
+  }
+
+  .navbarlist li {
+    display: inline-block;
+  }
+
+  .navbarlist a {
+    color: white;
+    padding: 0px 15px;
+  }
+
+  .container_header_Teamchinese,
+  .container_header_eventcechinese,
+  .container_header_experiencechinese,
+  .container_header_photographychinese,
+  .container_header_contactchinese {
+    font-size: 150%; /* 適中字體 */
+  }
+
+  .container_header_Teameenglish,
+  .container_header_eventenglish,
+  .container_header_experienceenglish,
+  .container_header_photographyenglish,
+  .container_header_contactenglish {
+    font-size: 100%; /* 調整比例 */
+    text-align: right; /* 文字靠右對齊 */
+  }
+}
+
+/* 主容器樣式 */
+.container_introduce {
+  background-color: #4A6B8F;
+  position: relative;
+  height: auto;
+  width: auto;
+  overflow: hidden;
+}
+
+/* 綠色三角形樣式 */
+.triangle_green_1 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 8%;
+  height: 10%;
+  background-color: #44B8A1;
+  clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
+  z-index: 1; /* 設置層級，確保在第二個三角形下方 */
+}
+
+.triangle_green_2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 8%;
+  height: 10%;
+  background-color: #44B8A1;
+  clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
+  transform: translate(50%, 0); /* 偏移位置以讓它與第一個三角形有輕微錯開 */
+  z-index: 2; /* 設置層級，確保在第一個三角形上方 */
+}
+
+/* 藍色三角形樣式 */
+.triangle_blue_1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8%;
+  height: 10%;
+  background-color: #EECD2F;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  z-index: 1; /* 設置層級，確保在第二個三角形下方 */
+}
+
+.triangle_blue_2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width:8%;
+  height: 10%;
+  background-color: #EECD2F;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  transform: translate(0, 50%); /* 偏移位置以讓它與第一個三角形有輕微錯開 */
+  z-index: 2; /* 設置層級，確保在第一個三角形上方 */
+}
+
+/* 輪播圖容器 */
+.carousel.carousel-dark.slide {
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: auto; /* 自適應高度 */
+  box-sizing: border-box;
+}
+
+/* 輪播內容 */
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  height: auto; /* 根據內容自適應高度 */
+  overflow: hidden;
+  padding: 50px 50px ; /* 簡化內距設定 */
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* 輪播指示器 */
+.carousel-indicators {
+  padding-top: 20px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .triangle_green_1, .triangle_green_2, .triangle_blue_1, .triangle_blue_2 {
+
+    display: none;
+  }
+
+  .carousel {
+    top: 0;
+    left: 0;
+    width: 100%; /* 覆蓋全寬 */
+    height: 100vh; /* 覆蓋全高 */
+  }
+  .carousel-inner {
+    width: 100%;
+    height: 100%; /* 高度填滿畫面 */
+  }
+  
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 圖片填滿，維持比例 */
+  }
+}
+
+@media (max-width: 480px) {
+
+  .triangle_green_1, .triangle_green_2, .triangle_blue_1, .triangle_blue_2 {
+
+    display: none;
+
+  }
+  .carousel {
+    top: 0;
+    left: 0;
+    width: 100%; /* 覆蓋全寬 */
+    height: 100vh; /* 覆蓋全高 */
+  }
+  .carousel-inner {
+    width: 100%;
+    height: 100%; /* 高度填滿畫面 */
+  }
+  
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 圖片填滿，維持比例 */
+  }
+}
+
+.container_introduce2 {
+  background-color: #EC7A3B;
+  position: relative;
+  height: auto;
+  width: auto;
+
+}
+
+.triangle_green_3 {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 8%;
+height: 10%;
+background-color: #44B8A1;
+clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
+z-index: 1; /* 設置層級，確保在第二個三角形下方 */
+}
+
+.triangle_green_4 {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 8%;
+height:10%;
+background-color: #44B8A1;
+clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
+transform: translate(50%, 0px); /* 偏移位置以讓它與第一個三角形有輕微錯開 */
+z-index: 2; /* 設置層級，確保在第一個三角形上方 */
+}
+.triangle_blue_3 {
+position: absolute;
+top: 0;
+right: 0;
+width: 8%;
+height: 10%;
+background-color: #4A6B8F;
+clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+z-index: 1; /* 設置層級，確保在第二個三角形下方 */
+}
+
+.triangle_blue_4 {
+position: absolute;
+top: 0;
+right: 0;
+width: 8%;
+height: 10%;
+background-color: #4A6B8F;
+clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+transform: translate(0px, 50%); /* 偏移位置以讓它與第一個三角形有輕微錯開 */
+z-index: 2; /* 設置層級，確保在第一個三角形上方 */
+}
+.container_introduce_photo {
+display: flex;
+justify-content: center;
+padding-top: 50px;     /*  上方內距   */
+padding-bottom: 20px;  /*  下方內距   */
+padding-left: 18px;    /*  左方內距   */
+padding-right: 18px;   /*  右方內距   */
+
+
+}
+/* 父容器設定 */
+.button-container2 {
+padding-top: 20px;     /*  上方內距   */
+padding-bottom: 50px;  /*  下方內距   */
+padding-left: 18px;    /*  左方內距   */
+padding-right: 18px;   /*  右方內距   */
+
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100%; /* 讓容器佔滿整個視窗高度以垂直置中 */
+
+font: 1.5em sans-serif;
+
+}
+
+/* 按鈕樣式 */
+input {
+border: 0;
+text-align: center;
+font-family: 'Noto Sans TC', sans-serif; /* 使用台北正黑體 */
+font: 1.5em sans-serif;
+width: 20%;
+height: auto;
+color: #381908;
+border: 2px solid #381908;
+background-color: #fff;
+font-weight: bold;
+border-radius: 15px;
+padding: 10px 20px; /* 增加內邊距讓按鈕大小更合適 */
+cursor: pointer;
+}
+
+/* 按鈕懸停效果 */
+input:hover {
+background-color: #381908;
+color: #fff; /* 懸停時改變文字顏色 */
+border: 2px solid #fff;
+font-weight: bold;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+input {
+    width: 40%; /* 縮小按鈕大小 */
+}
+
+.triangle_green_3, .triangle_green_4, .triangle_blue_3, .triangle_blue_4 {
+    width:8%; /* 縮小三角形 */
+    height: 10%;
+}
+}
+
+@media (max-width: 480px) {
+input {
+    width: 60%; /* 在小螢幕上縮小按鈕 */
+    font-size: 1em;
+}
+
+.triangle_green_3, .triangle_green_4, .triangle_blue_3, .triangle_blue_4 {
+    width:8%; /* 繼續縮小三角形 */
+    height: 10%;
+}
+
+  .team_projects_second_word {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}
+.graphicdesign{
+  background-color: #F7E697!important;
+  height: auto;
+  width: auto;
+  gap: 20px;
+  padding-top: 100px;
+  padding-bottom: 210px;
+  padding-left: 70px;
+  padding-right: 70px;
+ 
+}
+.graphicdesign_title{
+  text-align: center;
+  text: size 200px; ;
+  color: #381908!important;
+  padding-bottom: 100px;
+}
+.card_all{
+  display: flex!important;
+  justify-content: space-between!important;
+  align-items: center!important;
+  padding-top: 100px;
+  padding-bottom: 210px;
+  padding-left: 70px;
+  padding-right: 0px;
+  
+}
+.first_hr {
+  border: none; /* 移除預設邊框 */
+  background-color: #381908; /* 自定義顏色 */
+  transform: rotate(90deg); /* 旋轉90度 */
+  transform-origin: center; /* 設置旋轉中心 */
+  margin:top; /* 讓元素居中（根據需要） */
+}
+.card{
+  background-color: #F7E697!important;
+  border:none!important;
+  text-align: center;
+
+}
+

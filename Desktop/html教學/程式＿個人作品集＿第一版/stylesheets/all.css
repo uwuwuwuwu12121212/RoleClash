@@ -1,0 +1,859 @@
+@import '../node_modules/bootstrap/scss/bootstrap-reboot.scss';
+
+body {
+  background-color: rgb(247, 230, 151);
+}
+/* 引入台北正黑體 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+
+/* 重設樣式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans TC', sans-serif; /* 使用台北正黑體 */
+}
+
+/* Navbar 和容器設置 */
+.navbar {
+  background-color: rgb(68, 183, 160);
+  height: 125px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 46px;
+}
+
+/* Logo 和文字保持在同一列 */
+.container_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Logo 設置 */
+.logo img {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 74px;
+  width: 151px;
+  display: block;
+}
+
+/* Navbar 列表樣式 */
+.navbarlist {
+  list-style: none;
+  display: flex;
+  gap: 23px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 每個導航項目樣式 */
+.navbarlist li {
+  text-align: center;
+  transition: color 0.3s ease; /* 增加hover過渡效果 */
+}
+
+.container_header_Teamchinese,
+.container_header_eventcechinese,
+.container_header_experiencechinese,
+.container_header_photographychinese,
+.container_header_contactchinese {
+  font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: white;
+}
+
+.container_header_Teameenglish,
+.container_header_eventenglish,
+.container_header_experienceenglish,
+.container_header_photographyenglish,
+.container_header_contactenglish {
+  font-size: 0.75em;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 5px;
+}
+
+/* 導航項目懸停效果 */
+.navbarlist li:hover .container_header_Teamchinese,
+.navbarlist li:hover .container_header_Teameenglish,
+.navbarlist li:hover .container_header_eventcechinese,
+.navbarlist li:hover .container_header_eventenglish,
+.navbarlist li:hover .container_header_experiencechinese,
+.navbarlist li:hover .container_header_experienceenglish,
+.navbarlist li:hover .container_header_photographychinese,
+.navbarlist li:hover .container_header_photographyenglish,
+.navbarlist li:hover .container_header_contactchinese,
+.navbarlist li:hover .container_header_contactenglish {
+    color: #381908 !important; /* 懸停時改變內部文字顏色 */
+}
+
+
+/* RWD設置：最小尺寸將 Logo 放在文字上方 */
+@media (max-width: 1000px) {
+  .navbar {
+    flex-direction: column; /* 手機模式下使 Navbar 垂直排列 */
+    padding: 20px; /* 調整 padding */
+    height: auto; /* 自適應高度 */
+  }
+
+  .container_header {
+    flex-direction: column; /* 讓內容垂直排列 */
+    align-items: center;
+  }
+
+  .navbarlist {
+    flex-direction: column;
+    gap: 10px; /* 調整間距 */
+  }
+
+  .logo img {
+    margin-bottom: 20px; /* 在手機模式下調整 logo 與文字間距 */
+  }
+}
+.container_first,
+.container_introduce {
+    margin: 0; /* 移除兩個容器的外邊距 */
+    padding: 0; /* 如果有多餘的內邊距也可以清除 */
+}
+
+/* 其他需要的樣式 */
+.container_first img {
+  
+    display: block; /* 移除圖片周圍可能的間距 */
+    width: 100%;
+    height: auto;
+}
+  .container_introduce {
+    background-color: #EC7A3B;
+    position: relative;
+    height: auto;
+    width: auto;
+  
+}
+
+.triangle_green_1 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 111px;
+  height: 111px;
+  background-color: #44B8A1;
+  clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
+  z-index: 1; /* 設置層級，確保在第二個三角形下方 */
+}
+
+.triangle_green_2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 111px;
+  height: 111px;
+  background-color: #44B8A1;
+  clip-path: polygon(0% 0%, 0% 100%, 100% 50%);
+  transform: translate(50%, 0px); /* 偏移位置以讓它與第一個三角形有輕微錯開 */
+  z-index: 2; /* 設置層級，確保在第一個三角形上方 */
+}
+.triangle_blue_1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 111px;
+  height: 111px;
+  background-color: #4A6B8F;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  z-index: 1; /* 設置層級，確保在第二個三角形下方 */
+}
+
+.triangle_blue_2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 111px;
+  height: 111px;
+  background-color: #4A6B8F;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  transform: translate(0px, 50%); /* 偏移位置以讓它與第一個三角形有輕微錯開 */
+  z-index: 2; /* 設置層級，確保在第一個三角形上方 */
+}
+.container_introduce_photo {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;     /*  上方內距   */
+  padding-bottom: 20px;  /*  下方內距   */
+  padding-left: 18px;    /*  左方內距   */
+  padding-right: 18px;   /*  右方內距   */
+
+
+}
+/* 父容器設定 */
+.button-container {
+  padding-top: 20px;     /*  上方內距   */
+  padding-bottom: 50px;  /*  下方內距   */
+  padding-left: 18px;    /*  左方內距   */
+  padding-right: 18px;   /*  右方內距   */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* 讓容器佔滿整個視窗高度以垂直置中 */
+
+}
+
+/* 按鈕樣式 */
+input {
+  border: 0;
+  text-align: center;
+  font-family: 'Noto Sans TC', sans-serif; /* 使用台北正黑體 */
+  font-size: 1.25em; /* 字體變大 */
+  width: 287px;
+  height: auto;
+  color: #381908;
+  border: 2px solid #381908;
+  background-color: #fff;
+  font-weight: bold;
+  border-radius: 15px;
+  padding: 10px 20px; /* 增加內邊距讓按鈕大小更合適 */
+  cursor: pointer;
+}
+
+/* 按鈕懸停效果 */
+input:hover {
+  font-size: 1.25em; /* 懸停時保持字體大小 */
+  background-color: #381908;
+  color: #fff; /* 懸停時改變文字顏色 */
+  border: 2px solid #fff;
+  font-weight: bold;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  input {
+      width: 40%; /* 縮小按鈕大小 */
+  }
+
+  .triangle_green_1, .triangle_green_2, .triangle_blue_1, .triangle_blue_2 {
+      width: 60px; /* 縮小三角形 */
+      height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  input {
+      width: 60%; /* 在小螢幕上縮小按鈕 */
+      font-size: 1em;
+  }
+
+  .triangle_green_1, .triangle_green_2, .triangle_blue_1, .triangle_blue_2 {
+      width: 30px; /* 繼續縮小三角形 */
+      height: 30px;
+  }
+}
+
+.container_jump {
+  list-style: none;
+  display: flex;
+  gap: 134px;
+  justify-content: center;
+  padding-top: 115.5px;     /* 上方內距 */
+  padding-bottom: 10px;     /* 下方內距 */
+  padding-left: 115.5px;    /* 左方內距 */
+  padding-right: 115.5px;   /* 右方內距 */
+}
+
+.container_jump a {
+  text-decoration: none;
+}
+
+.jump_teamprojects,
+.jump_eventplanner,
+.jump_experience,
+.jump_photography,
+.jump_contactme {
+  position: relative;
+  flex-direction: column;
+  align-items: center;      /* 水平居中 */
+  justify-content: center;  /* 垂直居中 */
+  text-align: center;
+}
+
+.img_jump_teamprojects,
+.img_jump_eventplanner,
+.img_jump_experience,
+.img_jump_photography,
+.img_jump_contactme {
+  margin-bottom: 50px;      /* 圖片和方塊之間的距離 */
+}
+
+.square-container {
+  display: flex;
+  
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  width: 60px;              /* 正方形的寬度 */
+  height: 60px;             /* 正方形的高度 */
+  border: 3px solid #381908;
+  font-family: 'Noto Sans TC', sans-serif;
+  color: #381908;           /* 文字顏色 */
+  font-size: 1.75em;        /* 文字大小 */
+  font-weight: bold;        /* 粗體字 */
+}
+.square-container:hover {
+  background-color: #381908;
+  color:rgb(247, 230, 151); /* 懸停時改變文字顏色 */
+  font-weight: bold;
+}
+.jump_teamprojects_chinese,
+.jump_eventplanner_chinese,
+.jump_experience_chinese,
+.jump_photography_chinese,
+.jump_contactme_chinese {
+  padding-top: 30%;         /* 上方內距 */
+  padding-bottom: 5px;      /* 下方內距 */
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #381908;
+}
+
+.jump_teamprojects_english,
+.jump_eventplanner_english,
+.jump_experience_english,
+.jump_photography_english,
+.jump_contactme_english {
+  padding-top: 5px;         /* 上方內距 */
+  padding-bottom: 115.5px;      /* 下方內距 */
+  font-size: 1em;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 5px;
+  color: #381908;
+}
+
+/* 響應式設計 */
+
+/* 平板裝置，螢幕寬度 768px 以下 */
+@media (max-width: 768px) {
+  .container_jump {
+    flex-direction: column; /* 改為垂直佈局 */
+    gap: 50px;              /* 調整項目之間的距離 */
+    padding: 50px;          /* 減少內距 */
+  }
+
+  .square-container {
+    width: 50px;            /* 調整正方形大小 */
+    height: 50px;
+    font-size: 1.5em;       /* 調整文字大小 */
+  }
+
+  .jump_teamprojects_chinese,
+  .jump_eventplanner_chinese,
+  .jump_experience_chinese,
+  .jump_photography_chinese,
+  .jump_contactme_chinese {
+    font-size: 1.25em;      /* 調整中文標題文字大小 */
+  }
+
+  .jump_teamprojects_english,
+  .jump_eventplanner_english,
+  .jump_experience_english,
+  .jump_photography_english,
+  .jump_contactme_english {
+    font-size: 0.85em;      /* 調整英文標題文字大小 */
+  }
+}
+
+/* 手機裝置，螢幕寬度 480px 以下 */
+@media (max-width: 480px) {
+  .container_jump {
+    padding: 30px;         /* 減少整體內距 */
+    gap: 30px;             /* 更小的間距 */
+  }
+
+  .square-container {
+    width: 40px;           /* 調整正方形大小 */
+    height: 40px;
+    font-size: 1.25em;     /* 調整文字大小 */
+  }
+
+  .jump_teamprojects_chinese,
+  .jump_eventplanner_chinese,
+  .jump_experience_chinese,
+  .jump_photography_chinese,
+  .jump_contactme_chinese {
+    font-size: 1em;        /* 縮小中文標題字體 */
+  }
+
+  .jump_teamprojects_english,
+  .jump_eventplanner_english,
+  .jump_experience_english,
+  .jump_photography_english,
+  .jump_contactme_english {
+    font-size: 0.75em;     /* 縮小英文標題字體 */
+
+  }
+}
+
+.team_projects_first {
+  position: relative;
+  width: 100%; /* 設置寬度為全屏寬度 */
+  height: 1038px;
+  margin: 0; /* 移除任何外部空隙 */
+  padding: 0; /* 移除任何內部空隙 */
+  background: url("https://live.staticflickr.com/65535/54122403111_26b44e9429_o.png") center center / cover no-repeat;
+  display: block;
+  align-items: block-end; /* 將內容放置到容器的底部 */
+  justify-content: block-start; /* 將內容放置到容器的左側 */
+}
+.team_projects_first_firsttitle {
+  
+  list-style: none;
+  display: flex;
+  align-items: center; /* 垂直置中 */
+  gap: 30px;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+/* 包含文字、按鈕和 icon 的容器，置於左下角 */
+.team_projects_first_content {
+  display: block;
+  position: absolute;
+  bottom: 20px; /* 距離容器底部的距離 */
+  left:134px; /* 距離容器左側的距離 */
+  align-items: center;
+  gap: 20px; /* 元素之間的間距 */
+}
+.team_projects_first_icon{
+
+  display: inline-block;
+  vertical-align: middle; /* 保持 SVG 與文字居中 */
+  width: auto;  /* 根據需要調整寬度 */
+  height: auto; /* 根據需要調整高度 */
+
+}
+.team_projects_first_chinese{
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #381908;
+  display: flex;
+  align-items: center;
+  
+}
+.team_projects_first_title{
+  width: 503px;
+  height: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  background-color: #381908;
+  color: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.team_projects_first_word{
+  font-family: 'Noto Sans TC', sans-serif;
+  width: 503px;
+  height: auto;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  color: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+/* 父容器設定 */
+.team_projects_first_button_container {
+  padding-top: 20px;     /* 上方內距 */
+  padding-bottom: 50px;  /* 下方內距 */
+  padding-left: 0px;     /* 左方內距 */
+  padding-right: 0px;    /* 右方內距 */
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 100%;          /* 讓容器佔滿整個視窗高度以垂直置中 */
+}
+
+/* 按鈕樣式 */
+.team_projects_first_button_container_input {
+  border: 0px;
+  text-align: center;
+  font-family: 'Noto Sans TC', sans-serif; /* 使用台北正黑體 */
+  font-size: 1.25em;
+  width: 387px;
+  height: 82px;
+  color: #381908;
+  border: 2px solid #381908;
+  background-color: #fff;
+  font-weight: bold;
+  border-radius: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  box-sizing: border-box; /* 保持固定大小 */
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap; /* 確保文字不換行 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 文字過長時顯示省略號 */
+}
+
+/* 按鈕懸停效果 */
+.team_projects_first_button_container_input:hover {
+  font-size: 1.25em; /* 懸停時保持字體大小 */
+  background-color: #381908;
+  color: #fff; /* 懸停時改變文字顏色 */
+  border: 2px solid #fff;
+  font-weight: bold;
+}
+
+.team_projects_second {
+  display: flex; /* 使用 Flexbox 將內容分成左右 */
+  justify-content: space-between; /* 左右對齊 */
+  align-items: flex-end; /* 讓左右兩邊的內容對齊底部 */
+  position: relative;
+  padding: 20px;
+  width: 100%; /* 設置寬度為全屏寬度 */
+  height: 1038px;
+ 
+  background: url("https://live.staticflickr.com/65535/54129041771_285855b1b6_o.png") center center / cover no-repeat;
+
+}
+.team_projects_second_logo {
+  flex:auto; /* 保持 Logo 固定大小 */
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 50px;
+  padding-left: 134px;
+  padding-right: 134px;
+}
+
+/* 包含文字、按鈕和 icon 的容器，置於左下角 */
+.team_projects_second_content {
+  flex: 1; /* 讓右邊內容佔滿剩餘空間 */
+  align-items: center;
+  flex-direction: column;
+  justify-content: center; /* 垂直居中 */
+  gap: 20px; /* 元素之間的間距 */
+  padding-top: 10px;
+  padding-bottom: 50px;
+  padding-left: 200px;
+  padding-right: 134px;
+}
+
+.team_projects_second_firsttitle {
+  list-style: none;
+  display: flex;
+  align-items: center; /* 垂直置中 */
+  gap: 30px;
+  padding-top: 0px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+
+
+.team_projects_second_icon{
+
+  display: inline-block;
+  vertical-align: middle; /* 保持 SVG 與文字居中 */
+  width: auto;  /* 根據需要調整寬度 */
+  height: auto; /* 根據需要調整高度 */
+
+}
+.team_projects_second_chinese{
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #381908;
+  display: flex;
+  align-items: center;
+  
+}
+.team_projects_second_title{
+  display: inline-block;
+  vertical-align: middle; /* 保持 SVG 與文字居中 */
+  width: auto;
+  height: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #381908;
+  
+}
+.team_projects_second_word{
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  color: #381908;
+  padding-top: 10px;
+  padding-bottom: 25px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+/* 響應式：小螢幕時垂直排列 */
+@media (max-width: 1280px) {
+  .team_projects_second {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    height: auto; /* 讓內容高度自動適應 */
+  }
+
+  .team_projects_second_logo, 
+  .team_projects_second_content {
+    padding-top: 700px;
+    padding-bottom: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: left;
+    width: 100%; /* 讓兩者在小螢幕下各自佔滿寬度 */
+  }
+
+  .team_projects_second_content {
+    align-items: flex-start; /* 讓內容靠左對齊 */
+    padding-left: 20px; /* 增加左邊距，使內容靠左 */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    flex-direction: column;
+    width: 503px;
+    height: auto;
+  }
+
+  .team_projects_second_word {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}
+.event_first {
+  display: flex;
+  justify-content: flex-end; /* 將主要內容靠右對齊 */
+  align-items: flex-start; /* 將內容靠上對齊 */
+  position: relative;
+  padding: 20px;
+  width: 100%;
+  height: 1038px;
+  background: url("https://live.staticflickr.com/65535/54129500259_bc15eb8140_o.png") center center / cover no-repeat;
+}
+
+/* 包含文字、按鈕和 icon 的容器，置於右上角 */
+.event_content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 靠左對齊 */
+  justify-content: center; /* 垂直居中 */
+  gap: 20px; /* 元素之間的間距 */
+  padding-top: 30px;
+  padding-bottom: 100px;
+  padding-left: 1026px; /* 調整此值以控制內容的左邊距 */
+  padding-right: 134px;
+}
+
+.event_firsttitle {
+  list-style: none;
+  display: flex;
+  align-items: center; /* 垂直置中 */
+  gap: 30px; /* 設置 .event_firsttitle 與 .event_icon 間的距離 */
+  padding-top: 0px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+
+
+.event_icon{
+
+  display: inline-block;
+  vertical-align: middle; /* 保持 SVG 與文字居中 */
+  width: auto;  /* 根據需要調整寬度 */
+  height: auto; /* 根據需要調整高度 */
+
+}
+.event_chinese{
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #381908;
+  display: flex;
+  align-items: center;
+  
+}
+.event_title{
+  display: inline-block;
+  vertical-align: middle; /* 保持 SVG 與文字居中 */
+  width: auto;
+  height: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #381908;
+  
+  
+}
+.event_word{
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  color: #381908;
+  padding-top: 10px;
+  padding-bottom: 25px;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 503px;
+  height: auto;
+}
+/* 響應式：小螢幕時置中 */
+@media (max-width: 1280px) {
+  .event_first {
+    justify-content: center; /* 小螢幕時置中對齊 */
+    align-items: center;
+    padding: 10px;
+    height: 900px; /* 讓內容高度自動適應 */
+  }
+
+  .event_content {
+    align-items: flex-start; /* 內容靠左對齊 */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px; /* 增加左邊距，使內容靠左 */
+    padding-right: 20px;
+    width: 100%; /* 小螢幕下佔滿寬度 */
+    max-width: 503px; /* 控制內容的最大寬度 */
+  }
+
+  .event_word {
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+}
+
+.experience_first {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  padding: 20px;
+  width: 100%;
+  height: 1047px;
+  background: url("https://live.staticflickr.com/65535/54128659757_2b6205f432_o.png") center 30px no-repeat;
+  background-size: 90%; 
+  background-color: #ED7026;
+
+}
+
+.experience_logo {
+  flex: auto;
+  text-align: left;
+  padding: 10px 134px 50px;
+}
+
+.experience_content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 向左對齊 */
+  justify-content: center;
+  gap: 20px;
+  padding-top: 1000px;
+  padding-bottom: 50px;
+  padding-left: 134px;
+  padding-right: 0px;  
+  width: 503px;
+  height: auto;
+}
+
+.experience_firsttitle {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-top: 450px;
+
+  
+
+}
+
+.experience_icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: auto;
+  height: auto;
+}
+.experience_chinese{
+  width: 503px;
+  height: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #381908;
+  display: flex;
+  align-items: center;
+
+}
+
+.experience_title {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+  padding-right: 0px;  
+  width: 503px;
+  height: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.75em;
+  font-weight: bold;
+  letter-spacing: 4px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.experience_word {
+  width: 503px;
+  height: auto;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  color: #fff;
+  padding: 10px 0 5px;
+}
+
+.photo_first{
+  display: flex;
+  justify-content: flex-end; /* 將主要內容靠右對齊 */
+  align-items: flex-start; /* 將內容靠上對齊 */
+  position: relative;
+  padding: 20px;
+  width: auto;
+  height:1400px ;
+ 
+  background: url("https://live.staticflickr.com/65535/54129889331_9762134ac9_o.png") center center / cover no-repeat;
+  background-size: 90%; 
+  background-color: #EECD2F;
+
+}
+

@@ -1,0 +1,79 @@
+@import '../node_modules/bootstrap/scss/bootstrap-reboot.scss';
+@import'../node_modules/bootstrap/scss/bootstrap-grid.scss';
+
+// 重設樣式
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  // 變數設置
+  $navbar-bg-color: rgb(68, 183, 160);
+  $navbar-height: 125px;
+  $navbar-width: 1280px;
+  $padding-around: 46px;
+  $logo-width: 151px;
+  $logo-height: 74px;
+  $text-color: white;
+  $font-size-chinese: 16px;
+  $font-size-english: 14px;
+  $gap-between-items: 23px;
+  
+  // Navbar 和容器設置
+  .navbar {
+    background-color: $navbar-bg-color;
+    height: $navbar-height;
+    width: $navbar-width;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: $padding-around;
+    
+    .container_header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      
+      .logo {
+        img {
+          height: $logo-height;
+          width: $logo-width;
+          display: block;
+        }
+      }
+  
+      .navbarlist {
+        list-style: none;
+        display: flex;
+        gap: $gap-between-items;
+        align-items: center;
+  
+        li {
+          text-align: center;
+  
+          .container_header_Teamchinese,
+          .container_header_eventcechinese,
+          .container_header_experiencechinese,
+          .container_header_photographychinese,
+          .container_header_contactchinese {
+            font-size: $font-size-chinese;
+            font-weight: bold;
+            color: $text-color;
+          }
+  
+          .container_header_Teameenglish,
+          .container_header_eventenglish,
+          .container_header_experienceenglish,
+          .container_header_photographyenglish,
+          .container_header_contactenglish {
+            font-size: $font-size-english;
+            color: $text-color;
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+  }
+  
