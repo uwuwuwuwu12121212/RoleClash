@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Light Dialog With Avatar</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --page-bg: #f2f2f2;
+
+      --avatar-outer: #d8d8d8;
+      --avatar-inner: #eeeeee;
+
+      --dialog-outer: #d8d8d8;
+      --dialog-inner: #eeeeee;
+      --dialog-line: #000;
+
+      --text-main: #666666;
+      --title-text: #5f5f5f;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--page-bg);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    body {
+      padding: 24px;
+    }
+
+    .dialog-scene {
+      width: 100%;
+      max-width: 2048px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    /* =========================
+       左側頭像模組
+       ========================= */
+    .avatar-panel {
+      position: relative;
+      flex: 0 0 18%;
+      aspect-ratio: 494 / 524;
+      min-width: 150px;
+      max-width: 360px;
+      transform: translateY(-2px);
+    }
+
+    .avatar-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 16px 0;
+      background: var(--avatar-outer);
+      clip-path: polygon(
+        0% 0%,
+        82% 0%,
+        100% 18%,
+        100% 100%,
+        14% 100%,
+        0% 78%
+      );
+    }
+
+    .avatar-panel__inner {
+      position: absolute;
+      inset: 6% 4% 16px 4%;
+      background: var(--avatar-inner);
+      clip-path: polygon(
+        0% 0%,
+        84% 0%,
+        100% 18%,
+        100% 100%,
+        18% 100%,
+        0% 80%
+      );
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9%;
+    }
+
+    .avatar-panel__image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .avatar-panel__bottom {
+      position: absolute;
+      left: 14%;
+      right: 0;
+      bottom: 0;
+      height: 12px;
+      background: var(--avatar-inner);
+      clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        96% 100%,
+        8% 100%
+      );
+    }
+
+    /* =========================
+       右側對話框總容器
+       ========================= */
+    .dialog-shell {
+      position: relative;
+      flex: 1 1 auto;
+      min-width: 0;
+      aspect-ratio: 2048 / 470;
+    }
+
+    .dialog-shell__outer {
+      position: absolute;
+      inset: 0 0 28px 0;
+      background: var(--dialog-outer);
+      clip-path: polygon(
+        0% 0%,
+        68% 0%,
+        70% 4%,
+        96% 4%,
+        100% 18%,
+        100% 100%,
+        5.5% 100%,
+        0% 78%
+      );
+      overflow: hidden;
+    }
+
+    .dialog-shell__frame {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* 上方標題區 */
+    .dialog-shell__header {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 30%;
+      z-index: 2;
+    }
+
+    .dialog-shell__title {
+      position: absolute;
+      left: 4.8%;
+      top: 20%;
+      margin: 0;
+      color: var(--title-text);
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 24%;
+    }
+
+    /* 下方內容區 */
+    .dialog-shell__body {
+      position: absolute;
+      left: 3.3%;
+      right: 2.2%;
+      top: 15%;
+      bottom: 0;
+      z-index: 1;
+    }
+
+    .dialog-shell__body-panel {
+      position: absolute;
+      inset: 0 0 0 0;
+      background: var(--dialog-inner);
+      clip-path: polygon(
+        0% 24%,
+        31.5% 24%,
+        37% 0%,
+        94% 0%,
+        100% 14%,
+        100% 100%,
+        0% 100%
+      );
+      overflow: hidden;
+    }
+
+    .dialog-shell__body-panel::before {
+      content: "";
+      position: absolute;
+      top: -5.5%;
+      right: 31.5%;
+      width: 5%;
+      height: 6%;
+      background: var(--dialog-inner);
+      clip-path: polygon(72% 0, 100% 0, 28% 100%, 0 100%);
+    }
+
+    .dialog-shell__body-panel::after {
+      content: "";
+      position: absolute;
+      top: -5.5%;
+      right: 28.8%;
+      width: 2.8%;
+      height: 6%;
+      background: var(--dialog-inner);
+      clip-path: polygon(70% 0, 100% 0, 30% 100%, 0 100%);
+    }
+
+    .dialog-shell__content {
+      position: absolute;
+      inset: 0;
+      padding: 5% 4.8% 4.2% 4.8%;
+      color: var(--text-main);
+      overflow: hidden;
+      word-break: break-word;
+    }
+
+    .dialog-shell__text {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.75;
+      letter-spacing: 2px;
+      overflow: hidden;
+    }
+
+    /* 底部裝飾區 */
+    .dialog-shell__footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 28px;
+      z-index: 3;
+    }
+
+    .dialog-shell__line {
+      position: absolute;
+      left: 6.2%;
+      right: 3.1%;
+      bottom: 10px;
+      height: 3px;
+      background: var(--dialog-line);
+    }
+
+    .dialog-shell__bottom {
+      position: absolute;
+      left: 6.1%;
+      right: 2.2%;
+      bottom: 0;
+      height: 16px;
+      background: var(--dialog-inner);
+      clip-path: polygon(
+        1.8% 0%,
+        100% 0%,
+        98.2% 100%,
+        2% 100%,
+        0% 10%
+      );
+    }
+
+    /* =========================
+       響應式
+       ========================= */
+    @media (max-width: 1400px) {
+      .avatar-panel {
+        flex-basis: 19%;
+      }
+
+      .dialog-shell {
+        aspect-ratio: 2048 / 490;
+      }
+
+      .dialog-shell__title {
+        font-size: 30px;
+      }
+
+      .dialog-shell__text {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .dialog-shell {
+        aspect-ratio: 2048 / 510;
+      }
+
+      .dialog-shell__title {
+        font-size: 26px;
+      }
+
+      .dialog-shell__text {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .dialog-scene {
+        gap: 2px;
+      }
+
+      .avatar-panel {
+        flex-basis: 22%;
+        min-width: 135px;
+      }
+
+      .dialog-shell {
+        aspect-ratio: 2048 / 535;
+      }
+
+      .dialog-shell__outer {
+        inset: 0 0 24px 0;
+      }
+
+      .dialog-shell__header {
+        height: 31%;
+      }
+
+      .dialog-shell__body {
+        top: 15.5%;
+      }
+
+      .dialog-shell__footer {
+        height: 24px;
+      }
+
+      .dialog-shell__line {
+        bottom: 8px;
+      }
+
+      .dialog-shell__bottom {
+        height: 14px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 12px;
+      }
+
+      .dialog-scene {
+        gap: 2px;
+      }
+
+      .avatar-panel {
+        flex-basis: 24%;
+        min-width: 110px;
+        transform: none;
+      }
+
+      .avatar-panel::before {
+        inset: 0 0 12px 0;
+      }
+
+      .avatar-panel__inner {
+        inset: 6% 4% 12px 4%;
+        padding: 8%;
+      }
+
+      .avatar-panel__bottom {
+        height: 10px;
+      }
+
+      .dialog-shell {
+        aspect-ratio: 2048 / 590;
+      }
+
+      .dialog-shell__outer {
+        inset: 0 0 30px 0;
+      }
+
+      .dialog-shell__header {
+        height: 32%;
+      }
+
+      .dialog-shell__title {
+        left: 5%;
+        top: 18%;
+        font-size: 18px;
+        letter-spacing: 1px;
+        max-width: 28%;
+      }
+
+      .dialog-shell__body {
+        left: 3.3%;
+        right: 2.2%;
+        top: 16%;
+      }
+
+      .dialog-shell__content {
+        padding: 6.5% 5% 5% 5%;
+      }
+
+      .dialog-shell__text {
+        font-size: 15px;
+        line-height: 1.65;
+        letter-spacing: 1px;
+      }
+
+      .dialog-shell__footer {
+        height: 30px;
+      }
+
+      .dialog-shell__line {
+        bottom: 11px;
+      }
+
+      .dialog-shell__bottom {
+        height: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="dialog-scene">
+    <div class="avatar-panel">
+      <div class="avatar-panel__inner">
+        <img
+          class="avatar-panel__image"
+          src="./assets/sea/image/avatar_game.png"
+          alt="角色頭像"
+        />
+      </div>
+      <div class="avatar-panel__bottom"></div>
+    </div>
+
+    <section class="dialog-shell">
+      <div class="dialog-shell__outer">
+        <div class="dialog-shell__frame">
+          <header class="dialog-shell__header">
+            <h2 class="dialog-shell__title">遊戲說明</h2>
+          </header>
+
+          <div class="dialog-shell__body">
+            <div class="dialog-shell__body-panel">
+              <div class="dialog-shell__content">
+                <p class="dialog-shell__text">
+                  前面的經歷，女主角深深陷入淺意識中...<br />
+                  請使用滑鼠滾輪移動，陪伴女主角離開...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="dialog-shell__footer">
+        <div class="dialog-shell__line"></div>
+        <div class="dialog-shell__bottom"></div>
+      </footer>
+    </section>
+  </section>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗黑系工作區 - 視差行走</title>
+    <link rel="stylesheet" href="bird.css">
+</head>
+<body style="height: 3000px;"> 
+    <div class="room" id="room">
+        
+        <div id="girl" class="girl">
+
+        </div>
+
+        <div class="furniture-container" id="furniture">
+            
+            <div class="lamp-wrapper active">
+                <svg class="wires-svg" viewBox="0 0 600 600">
+                    <line x1="159" y1="39" x2="159" y2="400" class="wire-line" />
+                    <line x1="159" y1="39" x2="400" y2="210" class="wire-line" />
+                    <line x1="475" y1="32.5" x2="400" y2="210" class="wire-line" />
+                </svg>
+                <div class="ceiling-mount"></div>
+                <div class="ceiling-canopy"></div>
+                <div class="counterweight-assembly">
+                    <div class="pulley-gold gold-part"></div>
+                    <div class="weight-top-cone"></div>
+                    <div class="weight-cylinder"></div>
+                </div>
+                <div class="lamp-assembly" onclick="toggleRoomLights()">
+                    <div class="socket-gold gold-part"></div>
+                    <div class="lampshade"></div>
+                    <div class="bulb"></div>
+                    <div class="light-beam"></div>
+                </div>
+            </div>
+
+            <div class="desk-group">
+                <div class="desk-top">
+                    <div class="book-stack"></div>
+                </div>
+                <div class="leg-left-front"></div>
+                <div class="leg-left-back"></div>
+                <div class="crossbar"></div>
+                <div class="drawer-unit">
+                    <div class="drawer top-drawer"><div class="handle gold-part"></div></div>
+                    <div class="drawer bottom-drawer"><div class="handle gold-part"></div></div>
+                </div>
+                <div class="leg-right-front"></div>
+                <div class="leg-right-back"></div>
+            </div>
+
+        </div>
+        
+        <div class="hint-text">向下捲動讓女孩前進</div>
+    </div>
+
+    <script src="bird.js"></script>
+</body>
+</html>

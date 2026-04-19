@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    height: 5000px;
+    background: #000;
+  }
+  
+  /* 提示 */
+  .hint {
+    position: fixed;
+    color: #fff;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  
+  /* 🌱 地平線（唯一來源） */
+  :root {
+    --ground: 100px;
+  }
+  
+  /* 🌍 背景 */
+  .world {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 0;
+  }
+  
+  /* 👧 女孩（固定） */
+  .girl {
+    position: fixed;
+    bottom: var(--ground);
+    left: 25%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 5;
+  }
+  
+  
+  /* 🐘 大象（scroll 推進） */
+  .elephant-wrapper {
+    position: fixed;
+    bottom: 50px;     /* ✔ 與女孩同地平線 */
+    left: 200%;               /* ✔ 一開始在畫面外 */
+    width: 300px;
+    height: 260px;
+    z-index: 5;
+  }
+  
+  /* 🐘 大象本體 */
+  .elephant {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+  }
+  
+  /* 💬 對話框（在上層，不影響位置） */
+  .talk {
+    position: absolute;
+    bottom: -50px;
+    left: 70%;
+    transform: translateX(-50%);
+    width: 1300px;
+    cursor: pointer;
+    transition: opacity 0.4s;
+  }
+  
+  /* 隱藏用 */
+  .hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  

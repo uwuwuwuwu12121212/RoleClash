@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原生模組化範例</title>
+    <style>
+        /* 主頁面的全域排版 */
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex; /* 使用 Flex 排版讓 B 和 C 並排 */
+            gap: 20px;
+            height: 100vh;
+        }
+
+        /* 設定自定義標籤的寬度 */
+        comp-b { width: 250px; flex-shrink: 0; }
+        comp-c { flex-grow: 1; }
+    </style>
+</head>
+<body>
+
+    <comp-b></comp-b>
+
+    <comp-c></comp-c>
+
+    <script>
+        /**
+         * 建立一個通用的載入器 Class
+         * @param {string} templateUrl - HTML 檔案的路徑
+         */
+        function createComponent(templateUrl) {
+            return class extends HTMLElement {
+                async connectedCallback() {
+                    try {
+                        // 發送請求去抓取 HTML 檔案
+                        const res = await fetch(templateUrl);
+                        
+                        if (!res.ok) throw new Error(`無法載入 ${templateUrl}`);
+                        
+                        const content = await res.text();
+                        
+                        // 將抓到的 HTML 塞入標籤內
+                        this.innerHTML = content;
+                        
+                    } catch (err) {
+                        this.innerHTML = `<p style="color:red">載入失敗: ${err.message}</p>`;
+                    }
+                }
+            };
+        }
+
+        // 1. 定義 <comp-b> 對應到 ./A/B.html
+        customElements.define('comp-b', createComponent('./A/B.html'));
+
+        // 2. 定義 <comp-c> 對應到 ./A/C.html
+        customElements.define('comp-c', createComponent('./A/C.html'));
+        
+    </script>
+</body>
+</html>

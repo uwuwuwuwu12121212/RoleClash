@@ -1,0 +1,512 @@
+/* --- 全域 Logo --- */
+#main-logo {
+    position: fixed;
+    top: 40px;  /* 增加距離 */
+    left: 40px; /* 增加距離 */
+    width: 240px; /* 放大 2 倍 (原本 120px) */
+    z-index: 1000;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+/* --- 開場影片容器 --- */
+#video-opening-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#opening-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer; /* 點擊播放/暫停 */
+}
+
+#video-controls-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#video-opening-container:hover #video-controls-container {
+    opacity: 1;
+}
+
+#video-progress-bar {
+    width: 90%;
+    height: 6px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+}
+
+#video-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: #fff;
+    border-radius: 3px;
+}
+
+#video-hint {
+    color: white;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+#skip-video-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 2500;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+#skip-video-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: white;
+}
+
+.content-hidden {
+    display: none !important;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden; /* 防止捲動 */
+}
+
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/sea/image/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+/* 👩 小女孩角色樣式 */
+#character {
+    position: fixed;
+    bottom: 450px; /* 統一地面線 */
+    left: 10%;     /* 靠左 */
+    width: 300px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center bottom;
+    z-index: 10;
+}
+
+/* 💬 對話框容器樣式 */
+#dialogue-container {
+    position: fixed;
+    bottom: 80px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1600px;
+    z-index: 100;
+}
+
+:root {
+  --avatar-outer: #8b8b8b;
+  --avatar-inner: #adadad;
+  --dialog-outer: #686868;
+  --dialog-inner: #8a8a8a;
+  --dialog-line: #000;
+  --text-main: #ffffff;
+  --btn-light: #d1d1d1;
+  --btn-dark: #767676;
+}
+
+/* --- 對話框基礎結構 --- */
+.dialog-scene {
+    display: flex;
+    align-items: flex-end;
+    gap: 50px;
+    width: 100%;
+}
+
+.avatar-panel {
+    height: 306px; /* 1.7 倍 */
+    flex: 0 0 auto;
+    aspect-ratio: 494 / 524;
+    position: relative;
+    z-index: 110;
+}
+
+.avatar-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 10px 0;
+    background: var(--avatar-outer);
+    clip-path: polygon(0% 0%, 82% 0%, 100% 18%, 100% 100%, 14% 100%, 0% 78%);
+}
+
+.avatar-panel__inner {
+    position: absolute;
+    inset: 6% 4% 10px 4%;
+    background: var(--avatar-inner);
+    clip-path: polygon(0% 0%, 84% 0%, 100% 18%, 100% 100%, 18% 100%, 0% 80%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 5%;
+}
+
+.avatar-panel__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.dialog-shell {
+    flex: 1;
+    position: relative;
+    height: 306px; /* 1.7 倍 */
+    z-index: 100;
+}
+
+.dialog-shell__outer {
+    position: absolute;
+    inset: 0 0 15px 0;
+    background: var(--dialog-outer);
+    clip-path: polygon(0% 0%, 68% 0%, 70% 4%, 96% 4%, 100% 18%, 100% 100%, 5.5% 100%, 0% 78%);
+}
+
+.dialog-shell__body-panel {
+    position: absolute;
+    inset: 15% 2% 0 2%;
+    background: var(--dialog-inner);
+    clip-path: polygon(0% 24%, 31.5% 24%, 37% 0%, 94% 0%, 100% 14%, 100% 100%, 0% 100%);
+}
+
+.dialog-shell__title {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    color: var(--text-main);
+    font-size: 1.8rem;
+    z-index: 10;
+}
+
+.dialog-shell__content {
+    padding: 75px 50px 20px 50px;
+    color: var(--text-main);
+}
+
+.dialog-shell__text {
+    font-size: 1.7rem;
+    line-height: 1.6;
+}
+
+/* --- 按鈕控制區 --- */
+.dialogue-controls {
+    position: absolute;
+    right: 3%;
+    bottom: -20px; /* 配合大按鈕調整位置 */
+    display: flex;
+    gap: 20px; /* 增加按鈕間距 */
+    z-index: 50;
+}
+
+.mecha-wrapper {
+    cursor: pointer;
+    width:200px; /* 2 倍寬度 */
+    transition: transform 0.2s;
+}
+
+.mecha-wrapper:hover { transform: scale(1.05); }
+.mecha-wrapper:active { transform: scale(0.95); }
+
+.main-fill {
+    background-color: var(--btn-dark);
+    width: 100%;
+    height: 80px; /* 2 倍高度 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(0 0, 80% 0, 100% 30%, 100% 100%, 20% 100%, 0 70%);
+    color: white;
+    font-size: 1.5rem; /* 放大按鈕字體 */
+    font-weight: bold;
+}
+
+/* --- 狀態控制 --- */
+.hidden { display: none !important; }
+.fade-out { opacity: 0.3; transition: opacity 0.5s ease; }
+
+/* --- 介紹引導圖層 --- */
+#intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#intro-image {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+/* --- 大象場景 --- */
+#elephant-scene {
+    position: fixed;
+    bottom: 450px; /* 統一地面線 */
+    left: 0;
+    width: 100%;
+    height: 600px;
+    z-index: 80;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+#elephant-container {
+    position: relative;
+    width: 900px; 
+    height: 100%;
+    transform: translateX(150vw);
+    transition: transform 0.1s linear;
+    pointer-events: auto;
+}
+
+#elephant-img { width: 100%; height: 100%; object-fit: contain; }
+#blame-container { position: absolute; inset: 0; }
+
+.blame-img {
+    position: absolute;
+    width: 220px;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.5s ease-out;
+    cursor: pointer;
+}
+
+.blame-img.show { opacity: 1; transform: scale(1); }
+.blame-img.fade-out-anim { opacity: 0 !important; transform: scale(1.3) !important; pointer-events: none; }
+
+#blame-1 { top: -150px; left: 25px; }
+#blame-2 { top: -190px; left: 250px; }
+#blame-3 { top: -190px; left: 475px; }
+#blame-4 { top: -160px; left: 705px; }
+#blame-5 { top: 20px; right: 10px; }
+#blame-6 { bottom: -85px; right: -10px; }
+#blame-7 { bottom: -55px; left: 120px; }
+#blame-8 { bottom: 50px; left: 50px; }
+#blame-9 { bottom: 50px; left: -170px; }
+#blame-10 { top: 0px; left: 30px; }
+
+/* --- 蒼鷺場景 --- */
+#bird-scene {
+    position: fixed;
+    bottom: 450px; /* 統一地面線 */
+    left: 0;
+    width: 100%;
+    height: 900px;
+    z-index: 80;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+#bird-container {
+    position: relative;
+    width: 1500px; /* 放大比例 */
+    height: 100%;
+    max-width: 90vw;
+    transform: translateX(150vw);
+    transition: transform 0.1s linear;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#bird-img { width: 100%; height: 100%; object-fit: contain; }
+
+/* --- 大海/終章場景 --- */
+#sea-scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 70;
+    pointer-events: none;
+}
+
+#sea-clound {
+    position: absolute;
+    right: -200%;
+    top: -20%;
+    width: 250%;
+    height: 140%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease, transform 0.1s linear;
+    object-fit: cover;
+}
+
+#final-clound-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 45%;
+    object-fit: cover;
+    object-position: top;
+    z-index: 60;
+    opacity: 0;
+    animation: cloundDrift 60s linear infinite;
+    display: none;
+}
+
+#final-clound-top.show { opacity: 1; display: block; }
+
+@keyframes cloundDrift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+#final-text-container {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 100;
+}
+
+.final-text {
+    font-size: 2.5rem;
+    color: black;
+    font-weight: bold;
+    margin: 10px 0;
+    text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1.5s ease;
+}
+
+.final-text.show { opacity: 1; transform: translateY(0); }
+
+/* --- 終章留言板樣式 --- */
+#board-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+#board-overlay.active {
+    pointer-events: auto;
+    opacity: 1;
+}
+
+#board-overlay .board-wrapper {
+    transform: scale(0.9);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#board-overlay.active .board-wrapper { transform: scale(1); }
+
+/* --- 光牆功能樣式 --- */
+#light-wall-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 150;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.light-text {
+    position: absolute;
+    color: #444444;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 1), 0 0 20px rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    animation: lightFadeIn 2s ease forwards, lightFloat 6s ease-in-out infinite alternate;
+}
+
+@keyframes lightFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lightFloat { from { transform: translateY(0) translateX(0); } to { transform: translateY(-15px) translateX(5px); } }
+
+/* --- 手動留言板按鈕樣式 --- */
+#manual-open-board {
+    position: fixed;
+    top: 630px;
+    right: 760px;
+    width: 300px;
+    height: 180px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 500;
+    outline: none;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#manual-open-board.active {
+    visibility: visible;
+    pointer-events: auto;
+}

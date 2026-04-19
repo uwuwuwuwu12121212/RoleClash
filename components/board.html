@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>究極對齊 - 完美機甲留言板</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ─── 1. 核心數學與色彩變數 (你的像素級遙控器) ─── */
+        :root {
+            /* 🎨 嚴格取色 */
+            --bg-color: #ffffff;      /* 底板純白 */
+            --frame-color: #9f9f9f;   /* 機甲邊框主灰色 */
+            --slash-light: #d1d1d1;   /* 裝飾斜線淺灰 */
+            --text-main: #555555;     /* 文字深灰 */
+            --box-bg: #e0e0e0;        /* 留言框淺灰 */
+            --box-shadow: #a3a3a3;    /* 留言框立體陰影 */
+
+            /* 📐 幾何精算座標 (控制所有的完美留白與粗細) */
+            --mg-x: 22px;             /* 左側與右側的白邊寬度 */
+            --mg-y: 22px;             /* 頂部與底部的白邊高度 */
+            --thick: 26px;            /* 左側粗柱的寬度 */
+            --thin: 12px;             /* 頂部細線的厚度 */
+            --title-w: 280px;         /* 標題區塊的寬度 */
+            --title-h: 58px;          /* 標題區塊的高度 */
+            --tr-cut: 65px;           /* 右上角大缺角的裁切尺寸 */
+            --drop-h: 40px;           /* 右上角垂直向下的短線長度 */
+        }
+
+        /* ─── 2. 純白主畫布 ─── */
+        .board-base {
+            width: 780px;
+            max-width: 95vw;
+            height: 580px;
+            background-color: var(--bg-color);
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3); /* 讓畫布浮在背景上 */
+            
+            /* ✂️ 白板本身的裁切：保留左上完整，切除右上與左下 */
+            clip-path: polygon(
+                0 0, 
+                calc(100% - var(--tr-cut)) 0, 
+                100% var(--tr-cut), 
+                100% 100%, 
+                35px 100%, 
+                0 calc(100% - 35px)
+            );
+        }
+
+        /* ─── 3. 【神級】一體成型邊框矩陣 ─── */
+        /* 這裡完全沒有拼湊！整圈邊框是用 12 個精確數學座標畫出來的，保證零裂縫 */
+        .master-frame {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--frame-color);
+            pointer-events: none; /* 讓滑鼠能穿透邊框點擊輸入框 */
+            
+            clip-path: polygon(
+                /* 1. 左上角起點 */
+                var(--mg-x) var(--mg-y),
+                /* 2. 頂部外緣直線走到右上缺口 */
+                calc(100% - var(--mg-x) - var(--tr-cut)) var(--mg-y),
+                /* 3. 右上外緣 45 度斜切 */
+                calc(100% - var(--mg-x)) calc(var(--mg-y) + var(--tr-cut)),
+                /* 4. 右側垂直往下走短線 */
+                calc(100% - var(--mg-x)) calc(var(--mg-y) + var(--tr-cut) + var(--drop-h)),
+                /* 5. 往內縮 (形成短線厚度) */
+                calc(100% - var(--mg-x) - var(--thin)) calc(var(--mg-y) + var(--tr-cut) + var(--drop-h)),
+                /* 6. 往上走回轉角處 */
+                calc(100% - var(--mg-x) - var(--thin)) calc(var(--mg-y) + var(--tr-cut)),
+                /* 7. 內部 45 度完美平行折返 */
+                calc(100% - var(--mg-x) - var(--tr-cut)) calc(var(--mg-y) + var(--thin)),
+                /* 8. 頂部細線走回標題區塊 */
+                calc(var(--mg-x) + var(--title-w)) calc(var(--mg-y) + var(--thin)),
+                /* 9. 標題區塊斜角往下 */
+                calc(var(--mg-x) + var(--title-w) - 35px) calc(var(--mg-y) + var(--title-h)),
+                /* 10. 標題區塊底部平線 */
+                calc(var(--mg-x) + var(--thick)) calc(var(--mg-y) + var(--title-h)),
+                /* 11. 左側粗柱內部線條往下走 */
+                calc(var(--mg-x) + var(--thick)) calc(100% - var(--mg-y) - 25px),
+                /* 12. 左側粗柱底部 45 度收尾 (露出下方的白色區塊) */
+                var(--mg-x) calc(100% - var(--mg-y) - 50px)
+            );
+        }
+
+        /* ─── 4. 標題與頂部裝飾 ─── */
+        .title-text {
+            position: absolute;
+            top: var(--mg-y);
+            left: var(--mg-x);
+            height: var(--title-h);
+            display: flex;
+            align-items: center;
+            padding-left: 80px; /* 推開左邊的粗柱 */
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 12px;
+            color: var(--text-main);
+        }
+
+        .slashes-deco {
+            position: absolute;
+            top: var(--mg-y);
+            right: calc(var(--mg-x) + 160px); /* 控制斜線群組的位置 */
+            height: var(--thin);
+            width: 60px;
+            background-color: var(--bg-color); /* 白色底，完美斬斷背後的灰色細線 */
+            transform: skewX(-45deg);
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            gap: 6px;
+        }
+        .slash-light { width: 14px; height: 100%; background-color: var(--slash-light); }
+        .slash-dark { width: 8px; height: 100%; background-color: var(--frame-color); }
+
+        /* ─── 5. 內容文字 ─── */
+        .content-area {
+            position: absolute;
+            top: 115px;
+            left: 70px;
+        }
+        .content-area p {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.8;
+            letter-spacing: 4px;
+            margin: 0;
+        }
+
+        /* ─── 6. 雙層機甲留言框 ─── */
+        .input-wrapper {
+            position: absolute;
+            top: 220px;
+            left: 70px;
+            right: 100px;
+            bottom: 180px;
+            /* 原汁原味的深灰實體厚度 */
+            filter: drop-shadow(8px 8px 0px var(--box-shadow));
+        }
+
+        .input-main {
+            width: 100%;
+            height: 100%;
+            background-color: var(--box-bg);
+            /* 留言框專屬的右上與左下缺角 */
+            clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
+        }
+
+        .input-main textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            resize: none;
+            padding: 40px; /* 增加邊距防止文字被裁切角遮擋 */
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--text-main);
+            outline: none;
+            box-sizing: border-box;
+            line-height: 1.6;
+            letter-spacing: 2px;
+            font-family: inherit;
+            /* 隱藏捲動條 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        .input-main textarea::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        /* ─── 7. 確定按鈕 (不影響原樣式) ─── */
+        .confirm-btn-container {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .confirm-btn {
+            width: 100%;
+            height: 100%;
+            background-color: var(--frame-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 6px;
+            clip-path: polygon(0 0, 85% 0, 100% 30%, 100% 100%, 15% 100%, 0 70%);
+            transition: transform 0.2s;
+        }
+        .confirm-btn:hover { transform: scale(1.05); }
+        .confirm-btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+
+    <div class="board-base">
+        
+        <div class="master-frame"></div>
+
+        <div class="title-text">留言板</div>
+        
+        <div class="slashes-deco">
+            <div class="slash-light"></div>
+            <div class="slash-dark"></div>
+        </div>
+
+        <div class="content-area">
+            <p>請留下一句話吧，這份溫暖的寄語，<br>
+               將會成為某個人明天繼續前進的力量。</p>
+        </div>
+
+        <div class="input-wrapper">
+            <div class="input-main">
+                <textarea placeholder="(點此輸入)
+例如:今天只要有好好呼吸、
+好好吃頓飯,就已經是非常棒的一天了!"></textarea>
+            </div>
+        </div>
+
+        <!-- 確定按鈕 -->
+        <div class="confirm-btn-container" id="board-confirm-btn">
+            <div class="confirm-btn">確定</div>
+        </div>
+
+    </div>
+
+</body>
+</html>
