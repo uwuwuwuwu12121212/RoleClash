@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>機甲對話框 - 右側絕對對齊版</title>
+    <style>
+        :root {
+            --color-light: #d1d1d1;   
+            --color-dark: #767676;    
+            
+            --width: 500px;
+            --height: 180px;
+            --border-w: 10px;         
+            
+            /* 裁切定義 */
+            --cut: 50px;              
+            --in-cut: calc(var(--cut) + var(--border-w) * 0.6);
+        }
+
+        body {
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* 總容器 */
+        .mecha-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: var(--width);
+            gap: 12px;
+        }
+
+        /* ─── 上方主體 ─── */
+        .main-box {
+            width: 100%;
+            height: var(--height);
+            background-color: var(--color-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            clip-path: polygon(
+                0 0, 
+                calc(100% - var(--cut)) 0, 
+                100% var(--cut), 
+                100% 100%, 
+                var(--cut) 100%, 
+                0 calc(100% - var(--cut))
+            );
+        }
+
+        .main-fill {
+            width: calc(100% - (var(--border-w) * 2));
+            height: calc(100% - (var(--border-w) * 2));
+            background-color: var(--color-dark);
+            clip-path: polygon(
+                0 0, 
+                calc(100% - var(--in-cut)) 0, 
+                100% var(--in-cut), 
+                100% 100%, 
+                var(--in-cut) 100%, 
+                0 calc(100% - var(--in-cut))
+            );
+        }
+
+        /* ─── 下方獨立梯形 (右側鎖定對齊) ─── */
+        .bottom-deco {
+            /* 1. 左側推移：與上方缺角起點對齊 (設為 60px) */
+            margin-left: 60px; 
+            
+            /* 2. 寬度精算：總寬(100%) 減去左側推移的 60px 
+               這樣梯形的右端點就會剛好等於主體的 100% 位置 */
+            width: calc(100% - 60px);
+            
+            height: 12px;
+            background-color: var(--color-light);
+            
+            /* 3. 幾何裁切 
+               為了讓最右邊看起來是垂直對齊的，右側座標必須設為 100%
+            */
+            clip-path: polygon(
+                0 0,           /* 左上 */
+                100% 0,         /* 右上 (對齊主體最右側) */
+                100% 100%,      /* 右下 (垂直切齊，不內縮) */
+                12px 100%       /* 左下 (保持 45 度平行斜度) */
+            );
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mecha-wrapper">
+        <div class="main-box">
+            <div class="main-fill"></div>
+        </div>
+        
+        <div class="bottom-deco"></div>
+    </div>
+
+</body>
+</html>

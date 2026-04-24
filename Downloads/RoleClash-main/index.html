@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoleClash</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+    <!-- 開場影片容器 -->
+    <div id="video-opening-container">
+        <video id="opening-video" src="assets/final20260417.mp4"></video>
+        <!-- 移除原本的按鈕，改為點擊影片控制 -->
+        <div id="video-controls-container">
+            <div id="video-progress-bar">
+                <div id="video-progress-fill"></div>
+            </div>
+            <div id="video-hint">點擊畫面開始/暫停影片</div>
+        </div>
+        <button id="skip-video-btn">跳過影片 ➔</button>
+    </div>
+
+    <!-- 全域 Logo -->
+    <img id="main-logo" src="assets/sea/image/logo.png" alt="Logo">
+
+    <!-- 背景容器 -->
+    <div class="background-container content-hidden"></div>
+
+    <!-- 小女孩角色 -->
+    <div id="character" class="content-hidden"></div>
+
+    <!-- 對話框容器 -->
+    <div id="dialogue-container" class="content-hidden"></div>
+
+    <!-- 介紹引導圖層 -->
+    <div id="intro-overlay" class="hidden">
+        <img id="intro-image" src="" alt="Introduction">
+    </div>
+
+    <!-- 大象場景容器 -->
+    <div id="elephant-scene" class="hidden">
+        <div id="elephant-container">
+            <img id="elephant-img" src="assets/elephant/image/elephant_cry.png" alt="Elephant">
+            <!-- 責備文字圖片將由 JS 動態生成或預留在這 -->
+            <div id="blame-container"></div>
+        </div>
+    </div>
+
+    <!-- 蒼鷺場景容器 -->
+    <div id="bird-scene" class="hidden">
+        <div id="bird-container">
+            <img id="bird-img" src="assets/bird/image/bird_lamp_open.png" alt="Bird">
+        </div>
+    </div>
+
+    <!-- 大海/終章場景容器 -->
+    <div id="sea-scene" class="hidden">
+        <img id="sea-clound" src="assets/sea/image/sea_clound.png" alt="Cloud">
+        <img id="final-clound-top" src="assets/sea/image/clound.png" alt="Top Cloud" class="hidden">
+        <div id="final-text-container" class="hidden">
+            <p class="final-text">致每一個還在黑暗裡掙扎的你:</p>
+            <p class="final-text">慢慢來,我們都在彼岸這裡等你。</p>
+        </div>
+    </div>
+
+    <!-- 終章留言板容器 -->
+    <div id="board-overlay" class="hidden"></div>
+
+    <!-- 光牆容器 -->
+    <div id="light-wall-container"></div>
+
+    <!-- 手動打開留言板按鈕 (透明) -->
+    <button id="manual-open-board"></button>
+
+    <!-- 之後可以在此處引入模組化的 JS -->
+    <script src="./js/main.js"></script>
+</body>
+</html>
