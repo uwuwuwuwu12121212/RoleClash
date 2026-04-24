@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mecha Style Dialogue Box</title>
+  <style>
+    /* =========================================
+       1. 變數設定 (Design Tokens)
+       將顏色與尺寸抽離成變數，方便未來維護與修改
+    ========================================= */
+    :root {
+      /* 色彩配置 (依據圖片的灰階調整) */
+      --color-bg-dark: #2c2c2c;      /* 網頁背景色 (測試用) */
+      --color-avatar-outer: #d7d6d5c5; /* 頭像區塊外框 (淺灰) */
+      --color-avatar-inner: #FFFFFF; /* 頭像區塊內層 (中灰) */
+      --color-panel-outer: #c0c0c0;  /* 對話框外圍 (深灰) */
+      --color-panel-inner: #FFFFFF;  /* 對話框內層 (中灰) */
+      --color-highlight: #cdcccbc5;    /* 底部高光軌道 (淺灰) */
+      --color-text: #4C4C4C;         /* 文字純白 */
+
+      /* 尺寸與切角配置 */
+      --cut-size: 35px;              /* 主要 45 度斜角的尺寸 */
+      --gap-base: 6px;               /* 底部軌道與主體的間距 */
+      --base-height: 8px;            /* 底部軌道的高度 */
+      --box-height: 150px;           /* 元件統一高度 */
+    }
+
+    body {
+      background-color: var(--color-bg-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      /* 使用黑體系字型增添現代/科幻感 */
+      font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+    }
+
+    /* =========================================
+       2. 主體容器佈局 (Flexbox 排版)
+    ========================================= */
+    .mecha-dialogue {
+      display: flex;
+      gap: 15px; /* 頭像區與對話區的間隔 */
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+    }
+
+    /* =========================================
+       3. 左側：頭像區塊 (Avatar Section)
+    ========================================= */
+    .avatar-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: var(--box-height); /* 讓頭像區塊維持正方形比例 */
+    }
+
+    /* 頭像主體背景 */
+    .avatar-box {
+      position: relative;
+      width: 100%;
+      height: var(--box-height);
+      background-color: var(--color-avatar-outer);
+      /* 形狀剪裁：左上直角，右上 45度斜切，右下直角，左下 45度斜切 */
+      clip-path: polygon(
+        0 0, 
+        calc(100% - var(--cut-size)) 0, 
+        100% var(--cut-size), 
+        100% 100%, 
+        var(--cut-size) 100%, 
+        0 calc(100% - var(--cut-size))
+      );
+    }
+
+    /* 頭像內層深色區塊 */
+    .avatar-inner {
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; bottom: 8px;
+      background-color: var(--color-avatar-inner);
+      /* 配合外框形狀，內縮後切角尺寸微調以保持邊框等寬 */
+      clip-path: polygon(
+        0 0, 
+        calc(100% - 27px) 0, 
+        100% 27px, 
+        100% 100%, 
+        27px 100%, 
+        0 calc(100% - 27px)
+      );
+    }
+
+    /* 左下角懸空的高光軌道 */
+    .avatar-base-rail {
+      width: 100%;
+      height: var(--base-height);
+      background-color: var(--color-highlight);
+      margin-top: var(--gap-base);
+      /* 精準斜率計算：接續上方切角的斜度 (x = 35 + 6 = 41) */
+      clip-path: polygon(41px 0, 100% 0, 100% 100%, 49px 100%);
+    }
+
+    /* =========================================
+       4. 右側：對話面板區塊 (Dialogue Section)
+    ========================================= */
+    .panel-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; /* 佔滿剩餘空間 */
+    }
+
+    /* 面板主體深色背景 */
+    .panel-box {
+      position: relative;
+      width: 100%;
+      height: var(--box-height);
+      background-color: var(--color-panel-outer);
+      /* 形狀剪裁：左上直角，右上與左下 45度斜切 */
+      clip-path: polygon(
+        0 0, 
+        calc(100% - var(--cut-size)) 0, 
+        100% var(--cut-size), 
+        100% 100%, 
+        var(--cut-size) 100%, 
+        0 calc(100% - var(--cut-size))
+      );
+    }
+
+    /* 角色名稱標籤 */
+    .name-tag {
+      position: absolute;
+      top: 15px;
+      left: 50px;
+      color: var(--color-text);
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 5px;
+      z-index: 10;
+    }
+
+    /* 面板內層淺色區塊 (負責閃避名字與切出造型) */
+    .panel-inner {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--color-panel-inner);
+      z-index: 1;
+      /* 複雜的多邊形路徑：從左側出發，往下包覆名字，再往右上斜切 */
+      clip-path: polygon(
+        8px 55px,                  /* 1. 左側起點 (閃過名字高度) */
+        170px 55px,                /* 2. 水平往右底線 */
+        215px 10px,                /* 3. 45度斜切向上 */
+        calc(100% - 40px) 10px,    /* 4. 頂部邊緣 */
+        calc(100% - 8px) 42px,     /* 5. 右上角斜切 */
+        calc(100% - 8px) calc(100% - 8px), /* 6. 右側到底 */
+        42px calc(100% - 8px),     /* 7. 底部邊緣 */
+        8px calc(100% - 42px)      /* 8. 左下角斜切回到起點 */
+      );
+    }
+
+    /* 右上角機甲風格裝飾斜線 */
+    .panel-decors {
+      position: absolute;
+      top: 0;
+      right: 55px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .panel-decors .line {
+      width: 25px;
+      height: 10px;
+      background-color: var(--color-panel-inner);
+      transform: skewX(-45deg); /* 利用傾斜製作出 45度的平行四邊形 */
+      transform-origin: top;
+    }
+
+    /* 實際對話文字內容 */
+    .text-content {
+      position: relative;
+      z-index: 5;
+      /* 利用 padding 將文字推移，避開被剪裁的缺口與名字區塊 */
+      padding: 65px 20px 20px 50px; 
+      color: var(--color-text);
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      line-height: 1.2;
+      box-sizing: border-box;
+    }
+
+    .text-content p {
+      margin: 0 0 10px 0;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* 微微的文字陰影增加辨識度 */
+    }
+
+    /* 右下角懸空的高光軌道 */
+    .panel-base-rail {
+      width: 100%;
+      height: var(--base-height);
+      background-color: var(--color-highlight);
+      margin-top: var(--gap-base);
+      /* 精準斜率計算：接續上方切角的斜度 (x = 35 + 6 = 41) */
+      clip-path: polygon(41px 0, 100% 0, 100% 100%, 49px 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mecha-dialogue">
+    
+    <div class="avatar-wrapper">
+      <div class="avatar-box">
+        <div class="avatar-inner"></div>
+      </div>
+      <div class="avatar-base-rail"></div>
+    </div>
+
+    <div class="panel-wrapper">
+      <div class="panel-box">
+        <div class="panel-decors">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+        <div class="name-tag">蒼 鷺</div>
+        <div class="panel-inner"></div>
+        <div class="text-content">
+          <p>原來，</p>
+          <p>這世界上還有願意理解我！</p>
+        </div>
+      </div>
+      <div class="panel-base-rail"></div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mecha Dialog With Avatar</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    /* =========================================
+       1. 全域機甲風格變數 (以你選擇的高質感色彩為主)
+       ========================================= */
+    :root {
+      --page-bg: #111;
+
+      /* 左側頭像配色 */
+      --avatar-outer: #989796; 
+      --avatar-inner: #A1A1A0; 
+
+      /* 右側對話框配色 */
+      --dialog-outer: #61615F; 
+      --dialog-inner: #838281; 
+      
+      /* 底部懸空軌道高光色 */
+      --highlight-line: #989796; 
+      --text-main: #ffffff;
+
+      /* 核心幾何尺寸系統 (確保絕對 45 度角) */
+      --panel-height: 150px;     /* 主面板高度 */
+      --cut-size: 35px;          /* 45 度斜角切割尺寸 */
+      --gap-base: 6px;           /* 底部軌道斷開間隔 */
+      --base-height: 8px;        /* 底部軌道本身厚度 */
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--page-bg);
+      font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    }
+
+    body {
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* =========================================
+       2. 整體容器排版
+       ========================================= */
+    .dialog-scene {
+      width: 100%;
+      max-width: 900px; /* 收束最大寬度，讓閱讀體驗更佳 */
+      margin: 0 auto;
+      display: flex;
+      gap: 15px; /* 左右區塊間距 */
+    }
+
+    /* =========================================
+       3. 左側頭像模組
+       ========================================= */
+    .avatar-panel {
+      position: relative;
+      width: var(--panel-height); /* 強制維持正方形比例 */
+      height: calc(var(--panel-height) + var(--gap-base) + var(--base-height)); /* 總高度 = 面板 + 間距 + 軌道 */
+      flex-shrink: 0;
+    }
+
+    /* 左側外框深色背景 (取代原版的 ::before 百分比寫法) */
+    .avatar-panel::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: var(--panel-height);
+      background: var(--avatar-outer);
+      /* 左上直角、右上斜切、右下直角、左下斜切 */
+      clip-path: polygon(
+        0 0, 
+        calc(100% - var(--cut-size)) 0, 
+        100% var(--cut-size), 
+        100% 100%, 
+        var(--cut-size) 100%, 
+        0 calc(100% - var(--cut-size))
+      );
+    }
+
+    /* 左側內層淺色區塊 */
+    .avatar-panel__inner {
+      position: absolute;
+      top: 8px; left: 8px; right: 8px; 
+      height: calc(var(--panel-height) - 16px);
+      background: var(--avatar-inner);
+      /* 縮小 8px 並調整裁切尺寸維持等寬 */
+      clip-path: polygon(
+        0 0, 
+        calc(100% - 27px) 0, 
+        100% 27px, 
+        100% 100%, 
+        27px 100%, 
+        0 calc(100% - 27px)
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .avatar-panel__image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* 左側底部懸空高光軌道 */
+    .avatar-panel__bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: var(--base-height);
+      background: var(--highlight-line);
+      /* 精準斜率公式：X位移 = 35 + 6 = 41px，底部 X = 41 + 8 = 49px */
+      clip-path: polygon(41px 0, 100% 0, 100% 100%, 49px 100%);
+    }
+
+    /* =========================================
+       4. 右側對話框總容器
+       ========================================= */
+    .dialog-shell {
+      position: relative;
+      flex-grow: 1;
+      height: calc(var(--panel-height) + var(--gap-base) + var(--base-height)); /* 確保與左側絕對等高 */
+    }
+
+    /* 右側外框深色背景 */
+    .dialog-shell__outer {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: var(--panel-height);
+      background: var(--dialog-outer);
+      /* 左上直角、右上與左下斜切 */
+      clip-path: polygon(
+        0 0, 
+        calc(100% - var(--cut-size)) 0, 
+        100% var(--cut-size), 
+        100% 100%, 
+        var(--cut-size) 100%, 
+        0 calc(100% - var(--cut-size))
+      );
+    }
+
+    /* 右上角機甲風格斜線裝飾 (運用 ::before & ::after) */
+    .dialog-shell__outer::before,
+    .dialog-shell__outer::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 25px;
+      height: 10px;
+      background: var(--dialog-inner);
+      transform: skewX(-45deg);
+      transform-origin: top;
+    }
+    .dialog-shell__outer::before { right: 55px; } /* 第一條 */
+    .dialog-shell__outer::after { right: 85px; }  /* 第二條 */
+
+    .dialog-shell__frame {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* 上方標題區 */
+    .dialog-shell__header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+    }
+
+    .dialog-shell__title {
+      margin: 0;
+      position: absolute;
+      top: 15px; left: 50px;
+      color: var(--text-main);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 5px;
+    }
+
+    /* 內層淺色多邊形 (負責閃避名字與切出邊框) */
+    .dialog-shell__body-panel {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: var(--panel-height);
+      background: var(--dialog-inner);
+      z-index: 1;
+      clip-path: polygon(
+        8px 55px,                  /* 左側閃避起點 */
+        170px 55px,                /* 水平底線 */
+        215px 10px,                /* 45度斜上 */
+        calc(100% - 40px) 10px,    /* 頂部邊緣 */
+        calc(100% - 8px) 42px,     /* 右上切角 */
+        calc(100% - 8px) calc(100% - 8px), /* 右下直角 */
+        42px calc(100% - 8px),     /* 底部邊緣 */
+        8px calc(100% - 42px)      /* 左下切角 */
+      );
+    }
+
+    /* 文字內容區 */
+    .dialog-shell__content {
+      position: absolute;
+      inset: 0;
+      padding: 65px 20px 20px 50px; /* 將文字推至閃避區下方 */
+      color: var(--text-main);
+      box-sizing: border-box;
+      z-index: 5;
+    }
+
+    .dialog-shell__text {
+      margin: 0 0 10px 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    /* 底部裝飾區 */
+    .dialog-shell__footer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: var(--base-height);
+    }
+
+    /* 隱藏原版的多餘線條，保持最新版的洗鍊感 */
+    .dialog-shell__line {
+      display: none; 
+    }
+
+    /* 右側底部懸空高光軌道 (公式與左側一致) */
+    .dialog-shell__bottom {
+      position: absolute;
+      inset: 0;
+      background: var(--highlight-line);
+      clip-path: polygon(41px 0, 100% 0, 100% 100%, 49px 100%);
+    }
+
+    /* =========================================
+       5. RWD 響應式調整
+       讓機甲 UI 在小螢幕縮小時，完美保持 45 度幾何
+       ========================================= */
+    @media (max-width: 768px) {
+      :root {
+        --panel-height: 130px; /* 縮小面板高度 */
+        --cut-size: 25px;      /* 切角跟著縮小，確保比例好看 */
+      }
+
+      body {
+        padding: 12px;
+      }
+      
+      .dialog-scene {
+        gap: 10px;
+      }
+
+      .dialog-shell__title {
+        font-size: 1.1rem;
+        top: 12px; left: 35px;
+      }
+
+      .dialog-shell__text {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .dialog-shell__content {
+        padding: 50px 15px 15px 35px; /* 配合變小的名字重新調整內推 */
+      }
+
+      /* 重新計算內層多邊形閃避路徑 */
+      .dialog-shell__body-panel {
+        clip-path: polygon(
+          6px 42px,
+          115px 42px,
+          147px 10px,
+          calc(100% - 30px) 10px,
+          calc(100% - 6px) 34px,
+          calc(100% - 6px) calc(100% - 6px),
+          34px calc(100% - 6px),
+          6px calc(100% - 34px)
+        );
+      }
+
+      /* 重新計算軌道斜率 X位移 = 25 + 6 = 31px */
+      .avatar-panel__bottom,
+      .dialog-shell__bottom {
+        clip-path: polygon(31px 0, 100% 0, 100% 100%, 39px 100%);
+      }
+
+      /* 裝飾斜線微調位置 */
+      .dialog-shell__outer::before { right: 40px; }
+      .dialog-shell__outer::after { right: 70px; }
+    }
+  </style>
+</head>
+<body>
+  <section class="dialog-scene">
+    
+    <div class="avatar-panel">
+      <div class="avatar-panel__inner">
+        <img
+          class="avatar-panel__image"
+          src="./assets/sea/image/avatar_game.png" 
+          alt="角色頭像"
+        />
+      </div>
+      <div class="avatar-panel__bottom"></div>
+    </div>
+
+    <section class="dialog-shell">
+      <div class="dialog-shell__outer">
+        <div class="dialog-shell__frame">
+          <header class="dialog-shell__header">
+            <h2 class="dialog-shell__title">遊戲說明</h2>
+          </header>
+
+          <div class="dialog-shell__body">
+            <div class="dialog-shell__body-panel">
+              <div class="dialog-shell__content">
+                <p class="dialog-shell__text">
+                  前面的經歷，女主角深深陷入淺意識中...<br />
+                  請使用滑鼠滾輪移動，陪伴女主角離開...
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="dialog-shell__footer">
+        <div class="dialog-shell__line"></div>
+        <div class="dialog-shell__bottom"></div>
+      </footer>
+    </section>
+
+  </section>
+</body>
+</html>
